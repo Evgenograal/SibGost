@@ -153,7 +153,7 @@ public partial class RegisterPage : ContentPage
             }
         }
 
-        return null
+        return null;
     }
 
     private string? ValidatePasswordStrict(string password)
