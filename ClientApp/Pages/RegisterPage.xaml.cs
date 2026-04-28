@@ -22,12 +22,18 @@ public partial class RegisterPage : ContentPage
         var pass = EntryPassword.Text;
         var confirm = EntryConfirmPass.Text;
 
-        if (string.IsNullOrWhiteSpace(login) || string.IsNullOrWhiteSpace(pass) || string.IsNullOrWhiteSpace(email))
+        string? loginError = ValidateLoginStrict(login);
+        if (loginError != null)
         {
-            ShowError("Заполните логин, email и пароль");
+            ShowError(loginError);
             return;
         }
 
+        if (string.IsNullOrWhiteSpace(pass) || string.IsNullOrWhiteSpace(confirm))
+        {
+            ShowError("Введите пароль и его подтверждение");
+            return;
+        }
         if (pass != confirm)
         {
             ShowError("Пароли не совпадают");
@@ -41,9 +47,9 @@ public partial class RegisterPage : ContentPage
             return;
         }
 
-        if (await _authService.IsLoginTaken(login))
+        if (string.IsNullOrWhiteSpace(email))
         {
-            ShowError("Такой логин уже существует");
+            ShowError("Введите email");
             return;
         }
 
@@ -51,6 +57,12 @@ public partial class RegisterPage : ContentPage
         if (emailError != null)
         {
             ShowError(emailError);
+            return;
+        }
+
+        if (await _authService.IsLoginTaken(login))
+        {
+            ShowError("Такой логин уже существует");
             return;
         }
 
@@ -100,6 +112,50 @@ public partial class RegisterPage : ContentPage
         }
     }
 
+    private string? ValidateLoginStrict(string login)
+    {
+        if (string.IsNullOrWhiteSpace(login))
+            return "Логин не может быть пустым.";
+
+        if (login.Contains(' '))
+            return "Логин не должен содержать пробелы.";
+
+        if (login.Length < 4)
+            return "Логин слишком короткий. Минимум 4 символа.";
+
+        if (login.Length > 20)
+            return "Логин слишком длинный. Максимум 20 символов.";
+
+        char first = login[0];
+        bool isFirstLetter = (first >= 'a' && first <= 'z') || (first >= 'A' && first <= 'Z');
+        if (!isFirstLetter)
+            return "Логин должен начинаться с английской буквы (A-Z или a-z).";
+
+        char last = login[login.Length - 1];
+        bool isLastAlphanumeric = ((last >= 'a' && last <= 'z') || (last >= 'A' && last <= 'Z') || (last >= '0' && last <= '9'));
+        if (!isLastAlphanumeric)
+            return "Логин должен заканчиваться на английскую букву или цифру.";
+
+        for (int i = 0; i < login.Length; i++)
+        {
+            char c = login[i];
+            bool isAllowed = (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') ||
+                             (c >= '0' && c <= '9') || c == '_' || c == '-';
+
+            if (!isAllowed)
+                return "Логин содержит недопустимые символы. Разрешены только английские буквы, цифры, '_' и '-'.";
+
+            if (i > 0)
+            {
+                char prev = login[i - 1];
+                if ((c == '_' && prev == '_') || (c == '-' && prev == '-'))
+                    return "Запрещены подряд идущие '_' или '-'.";
+            }
+        }
+
+        return null
+    }
+
     private string? ValidatePasswordStrict(string password)
     {
         if (string.IsNullOrEmpty(password))
@@ -112,7 +168,7 @@ public partial class RegisterPage : ContentPage
             return "Пароль слишком длинный. Максимум 256 символов.";
 
         bool hasLower = false, hasUpper = false, hasDigit = false, hasSpecial = false;
-        const string allowedSpecials = "@$!%*?#&";
+        const string allowedSpecials = "@$!%*?&";
 
         for (int i = 0; i < password.Length; i++)
         {
@@ -123,7 +179,7 @@ public partial class RegisterPage : ContentPage
             bool isSpecial = allowedSpecials.Contains(c);
 
             if (!isLower && !isUpper && !isDigit && !isSpecial)
-                return "Пароль содержит недопустимые символы. Разрешены только английские буквы (A-Z, a-z), цифры и спецсимволы (@$!%*?#&).";
+                return "Пароль содержит недопустимые символы. Разрешены только английские буквы (A-Z, a-z), цифры и спецсимволы (@$!%*?&).";
 
             if (isLower) hasLower = true;
             else if (isUpper) hasUpper = true;
