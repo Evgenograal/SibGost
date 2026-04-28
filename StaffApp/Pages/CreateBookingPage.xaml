@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="StaffApp.Pages.CreateBookingPage"
+             Title="Создание брони">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+            <Frame Padding="15" BorderColor="#1E88E5" CornerRadius="10" HasShadow="True">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Клиент" FontSize="16" FontAttributes="Bold" TextColor="#1E88E5"/>
+                    <SearchBar x:Name="SearchClient" Placeholder="Поиск по логину, имени, фамилии" TextChanged="ClientSearchChange"/>
+                    <Picker x:Name="PickerClient" BackgroundColor="#f5f5f5" HeightRequest="80" Title="Выбор клиента" TextColor="Black">
+                        <Picker.ItemDisplayBinding>
+                            <MultiBinding StringFormat="{}{0} {1} ({2})">
+                                <Binding Path="FirstName"/>
+                                <Binding Path="LastName"/>
+                                <Binding Path="Login"/>
+                            </MultiBinding>
+                        </Picker.ItemDisplayBinding>
+                    </Picker>
+                    <Button Text="🔍 Найти клиента" Clicked="FindClient" BackgroundColor="#E3F2FD" TextColor="#1E88E5" HeightRequest="40" CornerRadius="8"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <Frame Padding="15" BorderColor="#43A047" CornerRadius="10" HasShadow="True">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Комната" FontSize="16" FontAttributes="Bold" TextColor="#43A047"/>
+                    <Picker x:Name="PickerRoom" BackgroundColor="#f5f5f5" HeightRequest="80" Title="Выберите комнату" TextColor="Black">
+                        <Picker.ItemDisplayBinding>
+                            <MultiBinding StringFormat="{}№{0} • {1} • {2:N0}₽">
+                                <Binding Path="RoomNumber"/>
+                                <Binding Path="Category.Name"/>
+                                <Binding Path="Category.BasePrice"/>
+                            </MultiBinding>
+                        </Picker.ItemDisplayBinding>
+                    </Picker>
+                    <Label x:Name="LblRoomAvailability" TextColor="#757575" FontSize="12" IsVisible="False"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <Frame Padding="15" BorderColor="#FB8C00" CornerRadius="10" HasShadow="True">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Даты проживания" FontSize="16" FontAttributes="Bold" TextColor="#FB8C00"/>
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                        <VerticalStackLayout Spacing="5" Grid.Column="0">
+                            <Label Text="Заезд" FontSize="14" TextColor="#757575"/>
+                            <DatePicker x:Name="PickerCheckIn" 
+                                        Format="dd.MM.yyyy"
+                                        DateSelected="DateChanged"
+                                        BackgroundColor="#f5f5f5"
+                                        HeightRequest="45" TextColor="Black"/>
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Spacing="5" Grid.Column="1">
+                            <Label Text="Выезд" FontSize="14" TextColor="#757575"/>
+                            <DatePicker x:Name="PickerCheckOut" 
+                                        Format="dd.MM.yyyy"
+                                        DateSelected="DateChanged"
+                                        BackgroundColor="#f5f5f5"
+                                        HeightRequest="45" TextColor="Black"/>
+                        </VerticalStackLayout>
+                    </Grid>
+                    <Label x:Name="LblNights" TextColor="#43A047" FontAttributes="Bold" HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <Frame Padding="15" BorderColor="#8E24AA" CornerRadius="10" HasShadow="True">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Статус" FontSize="16" FontAttributes="Bold" TextColor="#8E24AA"/>
+                    <Picker x:Name="PickerStstus" BackgroundColor="#f5f5f5" HeightRequest="45">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>Ожидание</x:String>
+                                <x:String>Подтверждено</x:String>
+                                <x:String>Заселён</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
+                </VerticalStackLayout>
+            </Frame>
+
+            <Frame BackgroundColor="#FFF3E0" Padding="15" CornerRadius="10">
+                <VerticalStackLayout>
+                    <Label Text="Предварительная стоимость" FontSize="14" TextColor="#E65100"/>
+                    <Label x:Name="LblTotalPrice" Text="0 ₽" FontSize="24" FontAttributes="Bold" TextColor="#E65100" HorizontalOptions="Center"/>
+                    <Label x:Name="LblPriceNote" Text="* Окончательная цена рассчитывается при заселении" TextColor="Gray" FontSize="10" HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <Button Text="✅ Создать бронирование" Clicked="CreateBooking" BackgroundColor="#43A047" TextColor="White" HeightRequest="55" FontSize="16" FontAttributes="Bold" CornerRadius="10"/>
+            <Button Text="❌ Отмена" Clicked="Cancel" BackgroundColor="#757575" TextColor="White" HeightRequest="45" CornerRadius="8"/>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

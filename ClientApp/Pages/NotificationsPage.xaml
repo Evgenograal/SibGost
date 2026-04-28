@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ClientApp.Pages.NotificationsPage">
+
+    <Grid RowDefinitions="Auto, *">
+        <Frame Grid.Row="0" BackgroundColor="White" Margin="0,0,0,10" CornerRadius="0" Padding="20" HasShadow="False">
+            <Label Text="Уведомления" FontSize="24" FontAttributes="Bold" TextColor="#1E88E5"/>
+        </Frame>
+
+        <CollectionView x:Name="NotificationsCollection" Grid.Row="1" Margin="15,0">
+            <CollectionView.EmptyView>
+                <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Padding="30">
+                    <Label Text="Нет новых уведомлений" TextColor="Gray" HorizontalOptions="Center" Margin="0,10"/>
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame Margin="0,0,0,12" Padding="15" CornerRadius="10" HasShadow="True" BackgroundColor="White" BorderColor="#E0E0E0">
+                        <VerticalStackLayout Spacing="8">
+
+                            <Grid ColumnDefinitions="Auto,*,Auto">
+                                <Label Grid.Column="0" Text="{Binding Type, StringFormat='📌 {0}'}" 
+                                       FontSize="16" TextColor="#1E88E5" FontAttributes="Bold" VerticalOptions="Center"/>
+                                <Label Grid.Column="1" Text="{Binding Message}" FontSize="15" TextColor="#333" LineBreakMode="WordWrap" Margin="10"/>
+                                <Label Grid.Column="2" Text="{Binding ScheduledAt, StringFormat='{0:dd.MM HH:mm}'}" 
+                                       FontSize="12" TextColor="#666" VerticalOptions="Start" HorizontalOptions="End"/>
+                            </Grid>
+
+                            <Label Text="{Binding Booking.Room.RoomNumber, StringFormat='🏨 Номер {0}'}" 
+                                   FontSize="13" TextColor="#1E88E5" FontAttributes="Bold" Margin="0,5,0,0"/>
+
+                            <HorizontalStackLayout Spacing="5">
+                                <Label Text="📅" FontSize="12"/>
+                                <Label Text="{Binding Booking.CheckIn, StringFormat='{0:dd.MM}'}" TextColor="#555" FontSize="12"/>
+                                <Label Text="→" TextColor="#999" FontSize="12"/>
+                                <Label Text="{Binding Booking.CheckOut, StringFormat='{0:dd.MM}'}" TextColor="#555" FontSize="12"/>
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>

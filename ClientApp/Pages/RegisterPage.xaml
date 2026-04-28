@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ClientApp.Pages.RegisterPage">
+    <ScrollView>
+        <VerticalStackLayout Padding="30" VerticalOptions="Center">
+            <Label Text="Регистрация" FontSize="24" HorizontalOptions="Center" Margin="0,0,0,20"/>
+
+            <Entry x:Name="EntryLogin" Placeholder="Логин" Margin="0,10"/>
+            <Entry x:Name="EntryEmail" Placeholder="Email" Keyboard="Email" Margin="0,10"/>
+            <Entry x:Name="EntryFirstName" Placeholder="Имя" Margin="0,10"/>
+            <Entry x:Name="EntryLastName" Placeholder="Фамилия (необязательно)" Margin="0,10"/>
+
+            <Entry x:Name="EntryPassword" Placeholder="Пароль" IsPassword="True" Margin="0,10"/>
+            <Entry x:Name="EntryConfirmPass" Placeholder="Повторите пароль" IsPassword="True" Margin="0,10"/>
+
+            <Button Text="Зарегистрироваться" Clicked="OnRegisterClicked" Margin="0,20" BackgroundColor="#28a745" TextColor="White"/>
+
+            <Label x:Name="LblError" TextColor="Red" HorizontalOptions="Center" IsVisible="False"/>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

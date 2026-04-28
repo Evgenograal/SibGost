@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="StaffApp.Pages.ManageRoomsPage"
+             Title="Управление номерами">
+
+    <Grid RowDefinitions="*,Auto">
+        <CollectionView x:Name="RoomsCollection" Margin="15">
+            <CollectionView.EmptyView>
+                <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Padding="20">
+                    <Label Text="Комнаты не найдены" TextColor="Gray" HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame Margin="0,8" Padding="0" BorderColor="#ddd" HasShadow="True" CornerRadius="12">
+                        <Grid ColumnDefinitions="140,*,Auto" RowDefinitions="120,Auto,Auto,Auto">
+                            <Frame Grid.Row="0" Grid.RowSpan="4" Grid.Column="0" 
+                                   Padding="0" IsClippedToBounds="True" 
+                                   CornerRadius="12" Margin="0">
+                                <Image Source="{Binding ImgUrl}" 
+                                       Aspect="AspectFill"
+                                       HorizontalOptions="Fill"
+                                       VerticalOptions="Fill"/>
+                            </Frame>
+
+                            <VerticalStackLayout Grid.Row="0" Grid.Column="1" Padding="15,10,10,0">
+                                <Label Text="{Binding RoomNumber, StringFormat='№ {0}'}" 
+                                       FontSize="22" FontAttributes="Bold" TextColor="#424242"/>
+                                <Label Text="{Binding Floor, StringFormat='{0} этаж'}" TextColor="#757575"/>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout Grid.Row="1" Grid.Column="1" Padding="15,0,10,0">
+                                <Label Text="{Binding Category.Name, StringFormat='📦 {0}'}" 
+                                       TextColor="#1E88E5" FontAttributes="Bold"/>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout Grid.Row="2" Grid.Column="1" Padding="15,5,10,0">
+                                <Label Text="{Binding Status, StringFormat='📍 {0}'}" 
+                                       TextColor="#FB8C00" FontAttributes="Bold"/>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout Grid.Row="0" Grid.RowSpan="4" Grid.Column="2" 
+                                                 Padding="10" Spacing="10" VerticalOptions="Center">
+                                <Button Text="✏️" Clicked="Edit" CommandParameter="{Binding .}" 
+                                        BackgroundColor="#1E88E5" TextColor="White" 
+                                        WidthRequest="45" HeightRequest="45" CornerRadius="8"/>
+                                <Button Text="🗑️" Clicked="Delete" CommandParameter="{Binding .}" 
+                                        BackgroundColor="#E53935" TextColor="White" 
+                                        WidthRequest="45" HeightRequest="45" CornerRadius="8"/>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <VerticalStackLayout Grid.Row="1" Margin="15,10,15,15" Spacing="10">
+
+            <Button x:Name="BtnToggleForm" 
+                    Text="➕ Добавить номер" 
+                    Clicked="ToggleFormClicked"
+                    BackgroundColor="#1E88E5"
+                    TextColor="White"
+                    HeightRequest="50"
+                    CornerRadius="10"
+                    FontAttributes="Bold"/>
+
+            <Frame x:Name="FormFrame" 
+               Grid.Row="1"
+               IsVisible="False"
+               Padding="0" 
+               Margin="15,10,15,15"
+               BorderColor="#1E88E5" 
+               HasShadow="True"
+               CornerRadius="12"
+               VerticalOptions="Fill">
+
+                <ScrollView BackgroundColor="White" 
+                        VerticalOptions="Fill"
+                        HeightRequest="600">
+                    <VerticalStackLayout Padding="20" Spacing="15">
+
+                        <Label Text="➕ Добавить/Изменить номер" 
+                           FontSize="20" 
+                           FontAttributes="Bold" 
+                           TextColor="#1E88E5"
+                           HorizontalOptions="Center"/>
+
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="Номер комнаты" FontSize="14" TextColor="#757575"/>
+                                <Entry x:Name="EntryRoomNumber" Placeholder="101" BackgroundColor="#f5f5f5" HeightRequest="45" TextColor="Black"/>
+                            </VerticalStackLayout>
+                            <VerticalStackLayout Spacing="5" Grid.Column="1">
+                                <Label Text="Этаж" FontSize="14" TextColor="#757575"/>
+                                <Picker x:Name="PickerFloor" BackgroundColor="#f5f5f5" HeightRequest="45" TextColor="Black">
+                                    <Picker.ItemsSource>
+                                        <x:Array Type="{x:Type x:String}">
+                                            <x:String>1</x:String>
+                                            <x:String>2</x:String>
+                                            <x:String>3</x:String>
+                                            <x:String>4</x:String>
+                                            <x:String>5</x:String>
+                                        </x:Array>
+                                    </Picker.ItemsSource>
+                                </Picker>
+                            </VerticalStackLayout>
+                        </Grid>
+
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="Категория" FontSize="14" TextColor="#757575"/>
+                            <Picker x:Name="PickerCategory" BackgroundColor="#f5f5f5" HeightRequest="45" TextColor="Black"/>
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="Удобства" FontSize="14" TextColor="#757575"/>
+                            <CollectionView x:Name="AmenitiesCollection" 
+                                        HeightRequest="120"
+                                        SelectionMode="Multiple">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Frame Padding="10,5" Margin="2" CornerRadius="6" BackgroundColor="#f5f5f5">
+                                            <Label Text="{Binding Name}" TextColor="#424242" VerticalOptions="Center"/>
+                                        </Frame>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="Статус" FontSize="14" TextColor="#757575"/>
+                            <Picker x:Name="PickerStatus" BackgroundColor="#f5f5f5" HeightRequest="45" TextColor="Black">
+                                <Picker.ItemsSource>
+                                    <x:Array Type="{x:Type x:String}">
+                                        <x:String>Свободен</x:String>
+                                        <x:String>Занят</x:String>
+                                        <x:String>Ремонт</x:String>
+                                    </x:Array>
+                                </Picker.ItemsSource>
+                            </Picker>
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="Фото номера" FontSize="14" TextColor="#757575"/>
+                            <Frame x:Name="ImageFrame"
+                               Padding="0" 
+                               CornerRadius="8" 
+                               HeightRequest="1000"
+                               IsClippedToBounds="True"
+                               IsVisible="False">
+                                <Image x:Name="ImagePreview" 
+                                   Aspect="AspectFill"/>
+                            </Frame>
+
+                            <Button Text="📷 Загрузить фото" 
+                                Clicked="PickImage" 
+                                BackgroundColor="#FB8C00"
+                                TextColor="White"
+                                HeightRequest="45"
+                                CornerRadius="8"/>
+                            <Label x:Name="LblImageStatus" 
+                               TextColor="Gray" 
+                               FontSize="12"
+                               HorizontalOptions="Center"/>
+                        </VerticalStackLayout>
+
+                        <HorizontalStackLayout Spacing="10">
+                            <CheckBox x:Name="CheckIsActive" IsChecked="True" Color="#43A047"/>
+                            <Label Text="Активен" VerticalOptions="Center" FontSize="16" TextColor="Black"/>
+                        </HorizontalStackLayout>
+
+                        <Button Text="💾 Сохранить" Clicked="Save" BackgroundColor="#43A047" TextColor="White" HeightRequest="50" CornerRadius="10" FontAttributes="Bold"/>
+                        <Button x:Name="BtnCancel" Text="❌ Отмена" Clicked="Cancel" BackgroundColor="#757575" TextColor="White" HeightRequest="45" CornerRadius="8" IsVisible="False"/>
+
+                    </VerticalStackLayout>
+                </ScrollView>
+            </Frame>
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

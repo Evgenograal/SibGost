@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ClientApp.Pages.EditProfilePage">
+    <ScrollView>
+    <VerticalStackLayout Padding="20">
+        <Label Text="Изменение данных" FontSize="24" FontAttributes="Bold" HorizontalOptions="Center" Margin="0,20"/>
+            
+            <VerticalStackLayout>
+                <Label Text="Имя" FontAttributes="Bold"/>
+                <Entry x:Name="EntryFirstName" BackgroundColor="#f5f5f5"/>
+            </VerticalStackLayout>
+        
+            <VerticalStackLayout>
+                <Label Text="Фамилия" FontAttributes="Bold"/>
+                <Entry x:Name="EntryLastName" BackgroundColor="#f5f5f5"/>
+            </VerticalStackLayout>
+        
+            <VerticalStackLayout>
+                <Label Text="Email" FontAttributes="Bold"/>
+                <Entry x:Name="EntryEmail" BackgroundColor="#f5f5f5"/>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout>
+            <Button Text="Сохранить" Clicked="SaveChanges" BackgroundColor="#28a745" TextColor="White" HeightRequest="50"/>
+            <Button Text="Отменить" Clicked="Cancel" BackgroundColor="#6c757d" TextColor="White" HeightRequest="50"/>
+        </VerticalStackLayout>
+    </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="ClientApp.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:pages="clr-namespace:ClientApp.Pages"
+    FlyoutBehavior="Disabled">
+
+    <ShellContent
+        Title="Вход"
+        ContentTemplate="{DataTemplate pages:LoginPage}"
+        Route="LoginPage"
+        FlyoutItemIsVisible="False" />
+
+    <TabBar>
+        <Tab Title="Номера" Route="RoomsPage">
+            <ShellContent ContentTemplate="{DataTemplate pages:RoomsPage}" />
+        </Tab>
+        <Tab Title="Бронирования" Route="BookingsPage">
+            <ShellContent ContentTemplate="{DataTemplate pages:BookingsPage}" />
+        </Tab>
+        <Tab Title="Уведомления" Route="NotificationsPage">
+            <ShellContent ContentTemplate="{DataTemplate pages:NotificationsPage}" />
+        </Tab>
+        <Tab Title="Профиль" Route="ProfilePage">
+            <ShellContent ContentTemplate="{DataTemplate pages:ProfilePage}" />
+        </Tab>
+    </TabBar>
+
+</Shell>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="StaffApp.Pages.ManageBookingsPage"
+             Title="Бронирования">
+
+    <Grid RowDefinitions="Auto, *">
+        <Frame Padding="10" Margin="15,10,15,10" BorderColor="#ddd" CornerRadius="8">
+            <Grid ColumnDefinitions="Auto, *">
+                <Label Text="Статус" VerticalOptions="Center" FontAttributes="Bold" TextColor="#424242"/>
+                <Picker x:Name="PickerStatusFilter" Grid.Column="1" HorizontalOptions="Fill" SelectedIndexChanged="FilterChanged" Margin="10" TextColor="Black">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Все</x:String>
+                            <x:String>Ожидание</x:String>
+                            <x:String>Подтверждено</x:String>
+                            <x:String>Заселён</x:String>
+                            <x:String>Выехал</x:String>
+                            <x:String>Отменено</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
+
+                <Button Text="➕ Новое" Grid.Column="1" Clicked="CreateBooking" BackgroundColor="#43A047" TextColor="White" WidthRequest="120" HeightRequest="40" CornerRadius="8" Margin="10,0,0,0" HorizontalOptions="End"/>
+            </Grid>
+        </Frame>
+
+        <CollectionView x:Name="BookingsCollection" Grid.Row="1" Margin="15,0,15,15" SelectionMode="Single" SelectionChanged="BookingSelected">
+            <CollectionView.EmptyView>
+                <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Padding="20">
+                    <Label Text="Бронирований нет" TextColor="Gray" HorizontalOptions="Center" Margin="0,10"/>
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame Margin="0,8" Padding="15" BorderColor="#ddd" HasShadow="True" CornerRadius="10">
+                        <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto">
+                            <Label Text="{Binding User.FirstName, StringFormat='👤 {0} {1}'}" 
+                                   FontSize="18" 
+                                   FontAttributes="Bold"
+                                   TextColor="#424242"
+                                   Grid.Row="0" Grid.Column="0"/>
+
+                            <Label Text="{Binding Room.RoomNumber, StringFormat='🏨 №{0}'}" 
+                                   TextColor="#1E88E5"
+                                   Grid.Row="1" Grid.Column="0"
+                                   Margin="0,5,0,0"/>
+
+                            <Label Text="{Binding CheckIn, StringFormat='📅 {0:dd.MM} — {1:dd.MM.yyyy}'}" 
+                                   TextColor="#757575"
+                                   Grid.Row="2" Grid.Column="0"
+                                   Margin="0,5,0,0"/>
+
+                            <Frame Grid.Row="0" Grid.RowSpan="3" Grid.Column="1" 
+                                   Padding="12,6" CornerRadius="8"
+                                   BackgroundColor="{Binding Status, Converter={StaticResource BookingStatusColorConverter}}"
+                                   HasShadow="False"
+                                   Margin="10,0,0,0">
+                                <Label Text="{Binding Status}" 
+                                       TextColor="White"
+                                       FontAttributes="Bold"
+                                       FontSize="12"
+                                       VerticalOptions="Center"/>
+                            </Frame>
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>

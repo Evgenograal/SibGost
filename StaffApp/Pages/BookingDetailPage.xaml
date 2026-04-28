@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="StaffApp.Pages.BookingDetailPage"
+             Title="Делати брони">
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+
+            <Frame BackgroundColor="#E3F2FD" Padding="20" CornerRadius="12" HasShadow="True">
+                <VerticalStackLayout Spacing="10">
+                    <Label x:Name="LblGuest" FontSize="20" FontAttributes="Bold" TextColor="#1E88E5" />
+                    <Label x:Name="LblRoom" FontSize="16" TextColor="#424242"/>
+                    <Label x:Name="LblDates" FontSize="14" TextColor="#757575"/>
+                    <Label x:Name="LblStatus" FontSize="16" FontAttributes="Bold" TextColor="#FB8C00"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <Frame Padding="15" BorderColor="#FB8C00" CornerRadius="10" HasShadow="True">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="🔄 Изменить статус" FontSize="16" FontAttributes="Bold" TextColor="#FB8C00"/>
+                    <Picker x:Name="PickerNewStatus" BackgroundColor="#f5f5f5" HeightRequest="45" TextColor="Black">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>Ожидание</x:String>
+                                <x:String>Подтверждено</x:String>
+                                <x:String>Заселён</x:String>
+                                <x:String>Выехал</x:String>
+                                <x:String>Отменено</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
+                    <Button Text="💾 Применить статус" 
+                            Clicked="UpdateStatus" 
+                            BackgroundColor="#FB8C00" 
+                            TextColor="White" 
+                            HeightRequest="45" 
+                            CornerRadius="8"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <Label Text="📜 История бронирования" FontSize="18" FontAttributes="Bold" TextColor="#424242"/>
+            <CollectionView x:Name="HistoryCollection" HeightRequest="150">
+                <CollectionView.EmptyView>
+                    <Label Text="История пуста" TextColor="Gray" HorizontalOptions="Center"/>
+                </CollectionView.EmptyView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Padding="10" Margin="0,5" CornerRadius="8" BackgroundColor="#f9f9f9">
+                            <VerticalStackLayout>
+                                <Label Text="{Binding Action}" FontAttributes="Bold" TextColor="#1E88E5"/>
+                                <Label Text="{Binding ChangeAt, StringFormat='{0:dd.MM.yyyy HH:mm}'}" TextColor="Gray" FontSize="12"/>
+                                <Label Text="{Binding ChangeBy}" TextColor="Gray" FontSize="12"/>
+                            </VerticalStackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Label Text="🔔 Уведомления" FontSize="18" FontAttributes="Bold" TextColor="#424242"/>
+            <CollectionView x:Name="NotificationsCollection" HeightRequest="150">
+                <CollectionView.EmptyView>
+                    <Label Text="Уведомлений нет" TextColor="Gray" HorizontalOptions="Center"/>
+                </CollectionView.EmptyView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Padding="10" Margin="0,5" CornerRadius="8" BackgroundColor="#FFF3E0">
+                            <VerticalStackLayout>
+                                <Label Text="{Binding Message}" TextColor="#E65100"/>
+                                <Label Text="{Binding Type}" TextColor="Gray" FontSize="12"/>
+                                <Label Text="{Binding ScheduledAt, StringFormat='⏰ {0:dd.MM HH:mm}'}" TextColor="Gray" FontSize="12"/>
+                            </VerticalStackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

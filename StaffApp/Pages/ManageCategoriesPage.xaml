@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="StaffApp.Pages.ManageCategoriesPage"
+             Title="Категории">
+
+    <Grid RowDefinitions="*, Auto">
+        <CollectionView x:Name="CategoriesCollection" Margin="15">
+            <CollectionView.EmptyView>
+                <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                    <Label Text="Категории не созданы" TextColor="Gray" HorizontalOptions="Center" Margin="0,10"/>
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame Margin="0,5" Padding="15" BorderColor="#ddd" HasShadow="True">
+                        <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto, Auto">
+                            <Label Text="{Binding Name}" FontSize="18" FontAttributes="Bold" Grid.Row="0" Grid.Column="0"/>
+                            <Label Text="{Binding  BasePrice, StringFormat='{0:N0} ₽ база'}" TextColor="#1E88E5" FontAttributes="Bold" Grid.Row="0" Grid.Column="1" VerticalOptions="Center"/>
+                            <Label Text="{Binding Description}" TextColor="Gray" Grid.Row="1" Grid.Column="0" Margin="0,5,0,0"/>
+
+                            <HorizontalStackLayout Grid.Row="1" Grid.Column="1" Spacing="8" VerticalOptions="Center">
+                                <Button Text="ПЦ" Clicked="PoliciesPrice" CommandParameter="{Binding .}" BackgroundColor="#8E24AA" TextColor="White" WidthRequest="40" HeightRequest="40" CornerRadius="8"/>
+                                <Button Text="✏️" Clicked="Edit" CommandParameter="{Binding .}" BackgroundColor="#1E88E5" TextColor="White" WidthRequest="40" HeightRequest="40" CornerRadius="8"/>
+                                <Button Text="🗑️" Clicked="Delete" CommandParameter="{Binding .}" BackgroundColor="#E53935" TextColor="White" WidthRequest="40" HeightRequest="40" CornerRadius="8"/>
+                            </HorizontalStackLayout>
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Frame Grid.Row="1" Padding="15" Margin="10" BorderColor="#1E88E5" HasShadow="True">
+            <VerticalStackLayout Spacing="10">
+                <Label Text="➕ Добавить/Изменить категорию" FontSize="16" FontAttributes="Bold" TextColor="#1E88E5"/>
+                <Entry x:Name="EntryName" Placeholder="Название" BackgroundColor="#f5f5f5" TextColor="Black"/>
+                <Entry x:Name="EditorDescription" Placeholder="Описание" BackgroundColor="#f5f5f5" TextColor="Black"/>
+                <Entry x:Name="EntryBasePrice" Placeholder="Базовая цена" BackgroundColor="#f5f5f5" TextColor="Black"/>
+                <Button Text="💾 Сохранить" Clicked="Save" BackgroundColor="#43A047" TextColor="White" HeightRequest="45" CornerRadius="8"/>
+            </VerticalStackLayout>
+        </Frame>
+    </Grid>
+</ContentPage>

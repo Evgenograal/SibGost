@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ClientApp.Pages.ProfilePage">
+    <ScrollView>
+    <VerticalStackLayout Padding="20">
+        <Border StrokeShape="RoundRectangle 60" WidthRequest="120" HeightRequest="120" HorizontalOptions="Center" Margin="0,20">
+            <Label Text="👤" FontSize="48" VerticalOptions="Center" HorizontalOptions="Center"/>
+        </Border>
+
+        <Frame Padding="20" BorderColor="#ddd" HasShadow="True">
+            <VerticalStackLayout Spacing="10">
+                <Label Text="Информация" FontSize="18" FontAttributes="Bold" TextColor="Black"/>
+
+                <Grid ColumnDefinitions="120, *" RowDefinitions="Auto,Auto,Auto,Auto" ColumnSpacing="10" RowSpacing="8">
+                    <Label Text="Логин" Grid.Column="0" Grid.Row="0" FontAttributes="Bold" TextColor="Black"/>
+                    <Label x:Name="LblLogin" Grid.Column="1" Grid.Row="0" TextColor="Black"/>
+                    
+                    <Label Text="Имя:" Grid.Row="1" Grid.Column="0" FontAttributes="Bold" TextColor="Black"/>
+                    <Label x:Name="LblFirstName" Grid.Row="1" Grid.Column="1" TextColor="Black"/>
+
+                    <Label Text="Фамилия:" Grid.Row="2" Grid.Column="0" FontAttributes="Bold" TextColor="Black"/>
+                    <Label x:Name="LblLastName" Grid.Row="2" Grid.Column="1" TextColor="Black"/>
+
+                    <Label Text="Email:" Grid.Row="3" Grid.Column="0" FontAttributes="Bold" TextColor="Black"/>
+                    <Label x:Name="LblEmail" Grid.Row="3" Grid.Column="1" TextColor="Black"/>
+                </Grid>
+            </VerticalStackLayout>
+        </Frame>
+
+        <Frame Padding="20" BorderColor="#ddd" HasShadow="True">
+            <VerticalStackLayout Spacing="10">
+                <Label Text="Данные бронирований" FontSize="18" FontAttributes="Bold" TextColor="Black"/>
+                <Label x:Name="LblBookingsCount" Text="Бронирований: 0" TextColor="Black"/>
+            </VerticalStackLayout>
+        </Frame>
+
+        <VerticalStackLayout>
+            <Button Text="Редактировать профиль" Clicked="Edit" BackgroundColor="#007ACC" TextColor="White"/>
+                <Button Text="Сменить пароль" Clicked="ChangePassword" BackgroundColor="#17a2b8" TextColor="White" Margin="0,10"/>
+                <Button Text="Выйти" Clicked="Logout" BackgroundColor="#dc3545" TextColor="White"/>
+            </VerticalStackLayout>
+    </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

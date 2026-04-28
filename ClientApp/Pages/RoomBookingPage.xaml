@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:sys="clr-namespace:System;assembly=netstandard" 
+             x:Class="ClientApp.Pages.RoomBookingPage"
+             Title="Бронирование номера"
+             BackgroundColor="#F8F9FA">
+    
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+
+            <Frame BackgroundColor="White" CornerRadius="12" Padding="15">
+                <VerticalStackLayout Spacing="10">
+                    <Label x:Name="LabelRoomInfo" FontSize="20" FontAttributes="Bold" TextColor="#333"/>
+                    <Label x:Name="LabelCategory" TextColor="#1E88E5" FontSize="14"/>
+                    <Label x:Name="LabelBasePrice" TextColor="#43A047" FontSize="16" FontAttributes="Bold"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <Frame BackgroundColor="White" CornerRadius="12" Padding="15">
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="Даты проживания" FontSize="18" FontAttributes="Bold"/>
+
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                        <VerticalStackLayout Grid.Column="0">
+                            <Label Text="Заезд" FontSize="12" TextColor="#666"/>
+                            <DatePicker x:Name="DatePickerCheckIn" Format="dd.MM.yyyy" 
+                                        DateSelected="DateSelected" MinimumDate="{x:Static sys:DateTime.Today}"/>
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Column="1">
+                            <Label Text="Выезд" FontSize="12" TextColor="#666"/>
+                            <DatePicker x:Name="DatePickerCheckOut" Format="dd.MM.yyyy" 
+                                        DateSelected="DateSelected" MinimumDate="{x:Static sys:DateTime.Today}"/>
+                        </VerticalStackLayout>
+                    </Grid>
+
+                    <Label x:Name="LabelNights" Text="Ночей: 0" FontSize="14" TextColor="#666"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <Frame BackgroundColor="White" CornerRadius="12" Padding="15" IsVisible="False" x:Name="FramePriceDetails">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="💰 Расчёт стоимости" FontSize="18" FontAttributes="Bold"/>
+                    <ScrollView HeightRequest="150">
+                        <VerticalStackLayout x:Name="StackPriceBreakdown" Spacing="5"/>
+                    </ScrollView>
+                    <BoxView HeightRequest="1" Color="#E0E0E0" Margin="0,10"/>
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Text="Итого:" FontSize="18" FontAttributes="Bold"/>
+                        <Label x:Name="LabelTotalPrice" Grid.Column="1" Text="0 ₽" 
+                               FontSize="22" FontAttributes="Bold" TextColor="#1E88E5"/>
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
+            <Button x:Name="ButtonConfirm" Text="✅ Подтвердить бронирование" 
+                    Clicked="Confirm" BackgroundColor="#1E88E5" TextColor="White"
+                    HeightRequest="50" CornerRadius="10" IsEnabled="False"/>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
