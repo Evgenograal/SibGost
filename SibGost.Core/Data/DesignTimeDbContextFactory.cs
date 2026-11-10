@@ -14,7 +14,7 @@ namespace SibGost.Core.Data
         {
             var optionsBuilder = new DbContextOptionsBuilder<SibGostDbContext>();
 
-            var dbPath = @"F:\Колледж\ВиПКС\SibGost\DataBase\SibGost.db";
+            var dbPath = @"";
 
             Directory.CreateDirectory(Path.GetDirectoryName(dbPath));
 
